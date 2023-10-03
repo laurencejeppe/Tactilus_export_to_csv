@@ -10,13 +10,9 @@ This package is currently supported on Python 3.6-3.9 for Linux, Windows and Mac
 
 for the most up to date version of the package, clone directly from my github repository using.
 
-```
-git clone https://github.com/laurencejeppe/something
-```
+```git clone https://github.com/laurencejeppe/Tactilus_export_to_csv```
 
 To install via pip, navigate to the something/ directory and run a pip install using:
 
-```
-pip install requirements.txt
-```
+```pip install -r requirements.txt```
 
