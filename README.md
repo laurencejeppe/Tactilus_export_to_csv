@@ -4,15 +4,15 @@ This package relies on NumPy, Pandas and PyQt5.
 
 # Installing
 
-This package has a number of dependencies, namely; NumPy, Pandas and PyQt5. We recommend using pip installation. It is possible to install via conda installation, ensure your environment is using Python 3.
+This package has a number of dependencies, namely; NumPy, Pandas and PyQt5. We recommend using pip installation.
 
-This package is currently supported on Python 3.6-3.9 for Linux, Windows and Mac.
+Open a terminal and navigate to where you want to install the package and run the following in the terminal:
 
-for the most up to date version of the package, clone directly from my github repository using.
+```git clone https://github.com/laurencejeppe/Tactilus_export_to_csv
+cd Tactilus_export_to_csv
+python -m venv venv
+source venv/Script/activate
+pip install -r requirements.txt```
 
-```git clone https://github.com/laurencejeppe/Tactilus_export_to_csv```
-
-To install via pip, navigate to the something/ directory and run a pip install using:
-
-```pip install -r requirements.txt```
+Once that is complete you can open and run the gui.py file to convert files. 
 
