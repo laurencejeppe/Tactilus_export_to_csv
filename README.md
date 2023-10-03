@@ -8,7 +8,8 @@ This package has a number of dependencies, namely; NumPy, Pandas and PyQt5. We r
 
 Open a terminal and navigate to where you want to install the package and run the following in the terminal:
 
-```git clone https://github.com/laurencejeppe/Tactilus_export_to_csv
+```
+git clone https://github.com/laurencejeppe/Tactilus_export_to_csv
 cd Tactilus_export_to_csv
 python -m venv venv
 source venv/Script/activate
