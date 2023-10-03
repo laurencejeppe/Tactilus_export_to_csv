@@ -1,0 +1,17 @@
+QComboBox {
+    text-align: center;
+} 
+
+QLabel {
+    padding: 5px;
+}
+
+QPushButton {
+    border-radius: 5px;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: #ffffff;
+}

@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (QAction, QApplication, QVBoxLayout, QHBoxLayout,
                              QMainWindow, QMessageBox, QComboBox, QButtonGroup,
                              QOpenGLWidget, QFileDialog, QLabel, QPushButton,
                              QSlider, QWidget, QTableWidget, QTableWidgetItem,
-                             QAbstractButton, QCheckBox, QErrorMessage)
+                             QAbstractButton, QCheckBox, QErrorMessage,QSizePolicy)
 
 class converter_GUI(QMainWindow):
 
@@ -25,21 +25,28 @@ class converter_GUI(QMainWindow):
         self.createMenus()
 
         self.layout = QVBoxLayout()
-        
+
         self.open_export_btn = QPushButton("Open Text File")
         
         self.layout.addWidget(self.open_export_btn)
         
         self.open_export_btn.clicked.connect(self.chooseOpenFile)
+
+        self.file_label = QLabel()
+        self.file_label.setText('Files:\t')
+        self.file_label.setAlignment(Qt.AlignTop)
+        self.layout.addWidget(self.file_label)
         
         self.hlayout = QHBoxLayout()
         self.hlayout.addStretch()
         
         self.numSensorSelect = QComboBox()
         self.numSensorSelect.addItems(['1','2','3','4','5','6'])
-        self.setStyleSheet("QComboBox {text-align: center;}")
-        self.numSensorSelect.setPlaceholderText('Number of Sensors')
-        
+       
+        self.numSensorLabel = QLabel()
+        self.numSensorLabel.setText('Select Number of Sensors')
+
+        self.hlayout.addWidget(self.numSensorLabel)
         self.hlayout.addWidget(self.numSensorSelect)
         self.hlayout.addStretch()
         
@@ -55,8 +62,8 @@ class converter_GUI(QMainWindow):
         self.resize(200,200)
         self.show()
     
-        self.export_file = None
-        self.csv_file = None
+        self.export_files = []
+        self.csv_files = []
 
     def chooseOpenFile(self):
         """
@@ -67,19 +74,33 @@ class converter_GUI(QMainWindow):
         
         if fname[0] == '':
             return
-        self.export_file = fname[0]
+        
+        for file in fname[0:-1]:
+            self.export_files.append(file)
+
+        self.update_fileListLabel()
 
     def chooseSaveFile(self):
-        fname = QFileDialog.getSaveFileName(self, 'Save file', filter="CSV (*.csv)")
-        
-        if fname[0] == '':
-            return
-        self.DF = PExport.PressureExport_to_DF(file=self.export_file,numSensors=int(self.numSensorSelect.currentText()))
-        self.csv_file = fname[0]
-        #try:
-        self.DF.to_csv(self.csv_file,index=None)
-        #except AttributeError:
-        #    print('')
+        for file in self.export_files:
+            fname = QFileDialog.getSaveFileName(self, f'Save file: {file}', filter="CSV (*.csv)")
+
+            if fname[0] == '':
+                return
+            self.DF = PExport.PressureExport_to_DF(file=file,numSensors=int(self.numSensorSelect.currentText()))
+            self.csv_file = fname[0]
+
+            self.DF.to_csv(self.csv_file,index=None)
+
+            self.export_files.remove(file)
+            
+        self.update_fileListLabel()
+
+
+    def update_fileListLabel(self):
+        label = 'Files:\t'
+        for fname in self.export_files:
+            label += f"{fname.split('/')[-1]}\n\t"
+        self.file_label.setText(label)
 
     def createActions(self):
         self.openFile = QAction(QIcon('open.png'), 'Open', self, 
@@ -101,10 +122,15 @@ class converter_GUI(QMainWindow):
         self.fileMenu.addAction(self.saveFile)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.exitAct)
+        self.helpMenu = self.menuBar().addMenu("&Help")
+        self.helpMenu.addAction(self.exitAct)
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    css = "styles.css"
+    with open(css,"r") as stylesheet:
+        app.setStyleSheet(stylesheet.read())
     mainWin = converter_GUI()
     mainWin.show()
     sys.exit(app.exec_())
