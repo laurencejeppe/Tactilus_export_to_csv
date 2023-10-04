@@ -70,12 +70,13 @@ class converter_GUI(QMainWindow):
         Handles importing and reading of cdb
 
         """
-        fname = QFileDialog.getOpenFileName(self, 'Open file',filter="Text (*.txt)")
+        os.chdir('..')
+        fname = QFileDialog.getOpenFileNames(self, 'Open file', filter="Text (*.txt)")
         
         if fname[0] == '':
             return
         
-        for file in fname[0:-1]:
+        for file in fname[0]:
             self.export_files.append(file)
 
         self.update_fileListLabel()

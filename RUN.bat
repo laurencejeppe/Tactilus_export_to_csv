@@ -9,8 +9,9 @@ if not exist "venv" (
 	python -m ensurepip --upgrade
 	ECHO Installing Packages
 	pip install -r requirements.txt
+) else (
+	ECHO Activating Virtual Environment
 )
-ECHO Activating Virtual Environment
 call "venv/Scripts/activate" 
 ECHO Opening Python GUI
 python gui.py
