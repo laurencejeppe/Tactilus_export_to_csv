@@ -10,11 +10,7 @@ Open a terminal and navigate to where you want to install the package and run th
 
 ```
 git clone https://github.com/laurencejeppe/Tactilus_export_to_csv
-cd Tactilus_export_to_csv
-python -m venv venv
-source venv/Script/activate
-pip install -r requirements.txt
 ```
 
-Once that is complete you can open and run the gui.py file to convert files. 
+You can then open the folder that this creates and run the RUN.bat file by double clicking to setup and run the program.
 
