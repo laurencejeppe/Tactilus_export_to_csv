@@ -52,7 +52,7 @@ class converter_GUI(QMainWindow):
         
         self.layout.addLayout(self.hlayout)
         
-        self.save_csv_btn = QPushButton("Save CSV File")
+        self.save_csv_btn = QPushButton("Save CSV File 1.")
         
         self.layout.addWidget(self.save_csv_btn)
         
@@ -82,25 +82,25 @@ class converter_GUI(QMainWindow):
         self.update_fileListLabel()
 
     def chooseSaveFile(self):
-        for file in self.export_files:
-            fname = QFileDialog.getSaveFileName(self, f'Save file: {file}', filter="CSV (*.csv)")
+        file = self.export_files[0]
+        fname = QFileDialog.getSaveFileName(self, f'Save file: {file}', filter="CSV (*.csv)")
 
-            if fname[0] == '':
-                return
-            self.DF = PExport.PressureExport_to_DF(file=file,numSensors=int(self.numSensorSelect.currentText()))
-            self.csv_file = fname[0]
+        if fname[0] == '':
+            return
+        self.DF = PExport.PressureExport_to_DF(file=file,numSensors=int(self.numSensorSelect.currentText()))
+        self.csv_file = fname[0]
 
-            self.DF.to_csv(self.csv_file,index=None)
+        self.DF.to_csv(self.csv_file,index=None)
 
-            self.export_files.remove(file)
+        self.export_files.remove(file)
             
         self.update_fileListLabel()
 
 
     def update_fileListLabel(self):
         label = 'Files:\t'
-        for fname in self.export_files:
-            label += f"{fname.split('/')[-1]}\n\t"
+        for i, fname in enumerate(self.export_files):
+            label += f"{i+1}. {fname.split('/')[-1]}\n\t"
         self.file_label.setText(label)
 
     def createActions(self):
