@@ -128,8 +128,8 @@ def PressureExport_to_DF(file,numSensors=4):
     df['FRAME'] = DATA[:,0]
     df['Timestamp'] = Timestamp
     [ t, t_h ] = timestamp_to_time(Timestamp)
-    df['Time From Hour'] = t_h
-    df['Time From Start'] = t
+    df['Time From Hour [s]'] = t_h
+    df['Time From Start [s]'] = t
     for j in range(numSensors):
         sname = 'Sensor ' + str(j+1)
         df[sname] = DATA[:,j+1]
