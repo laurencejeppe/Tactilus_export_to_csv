@@ -6,7 +6,7 @@ if not exist "venv" (
 	ECHO Activating Virtual Environment
 	call "venv/Scripts/activate"
 	ECHO Updating pip
-	python -m ensurepip --upgrade
+	python -m pip install --upgrade pip
 	ECHO Installing Packages
 	pip install -r requirements.txt
 ) else (
