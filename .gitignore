@@ -32,6 +32,9 @@ MANIFEST
 *.manifest
 *.spec
 
+# Pylint
+.pylintrc
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt

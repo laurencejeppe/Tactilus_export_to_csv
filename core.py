@@ -3,6 +3,14 @@
 Created on Tue Mar 28 13:40:36 2023
 
 @author: ljr1e21
+
+Core code for converting Tactilus export.txt files to .csv file
+
+This module runs the code for converting the files, reformatting and exporting
+the files in the correct format. This is run from the gui.py script.
+
+Todo:
+    * TODO: Include some more documentation.
 """
 
 import numpy as np
@@ -13,11 +21,14 @@ import pandas as pd
 def hh(timestamp):
     return int(timestamp.split()[3][0:2])
 
+
 def mm(timestamp):
     return int(timestamp.split()[3][3:5])
 
+
 def ss(timestamp):
     return int(timestamp.split()[3][6:8])
+
 
 def time(timestamp,unit='s'):
     # takes a timestamp in the form Fri Aug 26 16:45:04 2022 and converts to seconds unit='s', minutes unit='m', or hours unit='h'
@@ -50,11 +61,12 @@ def timestamp_to_time(timestamp):
     else:
         print('Frame rate calculation failed, please investigate!')
         return 1
-    
+
+
 def frame_rate(timestamp):
     # Calculates frame rate based on the total time in seconds and the total number of frames
     return len(timestamp)/(time(timestamp[-1],unit='s') - time(timestamp[0],unit='s'))
-    
+
 
 def PressureExport_to_DF(file,numSensors=4):
     """
@@ -81,7 +93,7 @@ def PressureExport_to_DF(file,numSensors=4):
     """
     cols = ['FRAME','Timestamp','Time From Hour [s]','Time From Start [s]']
     
-    with open(file, 'r') as file:# Open file in read mode
+    with open(file, 'r') as file: # Open file in read mode
         file_list = file.readlines() # Create a list with each line of the data as an item in the list
 
     # Find all the lines with FRAME at the beginning
@@ -90,7 +102,7 @@ def PressureExport_to_DF(file,numSensors=4):
     # From the last item in Instance find the value of the last frame and store it in frames
     frames = int( Instance[-1].split()[1][:-6] )
     
-    ind = range(frames)
+    indexes = range(frames)
     
     for i in range(numSensors):
         n = i + 1
@@ -99,11 +111,10 @@ def PressureExport_to_DF(file,numSensors=4):
 
     # Create an empty dataframe (may need to specify double not float)
     DATA = np.zeros((frames,9), dtype=np.double )
-    df = pd.DataFrame(data=None,columns=cols,index=ind)
+    df = pd.DataFrame(data=None,columns=cols,index=indexes)
     Timestamp = []
     
     per = 0
-    
     count = 0
     
     t = file_list[1].split(' ')[3]
@@ -125,6 +136,7 @@ def PressureExport_to_DF(file,numSensors=4):
         for j in range(numSensors):
             DATA[i,j+1] = float( file_list[i*11+2+j].split()[0] ) # Each of the six data channels
 
+    # Asign all the data from the nparray to the dataframe
     df['FRAME'] = DATA[:,0]
     df['Timestamp'] = Timestamp
     [ t, t_h ] = timestamp_to_time(Timestamp)
@@ -134,6 +146,7 @@ def PressureExport_to_DF(file,numSensors=4):
         sname = 'Sensor ' + str(j+1)
         df[sname] = DATA[:,j+1]
     return df
+
 
 if __name__ == '__main__':
 
