@@ -79,7 +79,7 @@ def PressureExport_to_DF(file,numSensors=4):
 
     if a frame rate is specified then column one of the output will be in seconds rather than in frames
     """
-    cols = ['FRAME','Timestamp','Time From Hour','Time From Start']
+    cols = ['FRAME','Timestamp','Time From Hour [s]','Time From Start [s]']
     
     with open(file, 'r') as file:# Open file in read mode
         file_list = file.readlines() # Create a list with each line of the data as an item in the list
